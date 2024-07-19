@@ -3,75 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alli <alli@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: yhsu <student.hive.fi>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 15:47:04 by alli              #+#    #+#             */
-/*   Updated: 2024/07/10 16:38:52 by alli             ###   ########.fr       */
+/*   Created: 2024/07/18 16:36:28 by yhsu              #+#    #+#             */
+/*   Updated: 2024/07/18 16:37:41 by yhsu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//valid input  The number of philosophers , The time a philosopher will die if he doesn’t eat , The time it takes a philosopher to eat , The time it takes a philosopher to sleep   > 0   philo < 200
-init_program 
-init_philo
-//every philo is a thread  create threads; monitor is also a thread
-
-// each philo geos into the routine function
-// eat , sleep, think
-routine()
-{
-    //loop the routine, and break when dead flag is 1
-    // thinking: print message
-    //eating : ft_usleep , print message //-alice thinks that ft_usleep should be for sleep
-    //sleep :lock right / left forks , printf message , ft_usleep, drop forks (unlock fork) /
-
-    //destroy mutex; free data if allocate any
-}
-
-monitor()
-{
-
-//infinite loop until philo dies
-//check die; time now - last meal < the time philo needs to die
-
-}
-int	check_args(int argc, char **argv)
+int	validate_input(int argc, char **argv)
 {
 	int	i;
 
+	if (argc != 5 && argc != 6)
+	{
+		ft_putstr_fd("invalid number of arguments", 2);
+		return (1);
+	}	
 	i = 1;
-	if (argc == 5 || argc == 6)
+	while (argv[i])
 	{
-		while (i <= argc)
-		{
-			if (!ft_isdigit(argv[i]))
-				i++;
-			else
-				return (1);
-		}
+		if (i == 1 && ft_atol(argv[i]) <= 0)
+			return (ft_putstr_fd("invalid number of philosophers\n", 2), 1);
+		else if (i == 2 && ft_atol(argv[i]) <= 0)
+			return (ft_putstr_fd("invalid time to die\n", 2), 1);
+		else if (i == 3 && ft_atol(argv[i]) <= 0)
+			return (ft_putstr_fd("invalid time to eat\n", 2), 1);
+		else if (i == 4 && ft_atol(argv[i]) <= 0)
+			return (ft_putstr_fd("invalid time to sleep\n", 2), 1);
+		else if (i == 5 && ft_atol(argv[i]) <= 0)
+			return (ft_putstr_fd("invalid times each philo should eat\n", 2), 1);
+		i++;
 	}
-	else
-	{
-		printf("argument count not correct\n");
-		return (0);
-	}
-		
+	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	if (!check_args(argc, argv))
-		return (1);//error printed
-	if (init_)
-	
-	
+	t_philo		*philo;
+	t_program	data;
+
+	if (validate_input(argc, argv))
+		return (1);
+	if (init_program(&data, argv, argc))
+		return (clean_program(&data));
+	philo = malloc(data.philo_n * sizeof(t_philo));
+	if (!philo)
+		return (clean_program(&data));
+	if (init_philo(philo, &data))
+		return (clean_program(&data));
+	if (init_threads(philo, &data))
+		return (clean_all(&data, philo));
+	if (clean_all(&data, philo))
+		return (1);
+	return (0);
 }
-
-
-/*
-log:
-X is thinking
-X is sleeping
-X is eating
-*/

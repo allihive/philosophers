@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alli <alli@student.hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/18 16:36:57 by yhsu              #+#    #+#             */
-/*   Updated: 2024/07/19 10:10:45 by alli             ###   ########.fr       */
+/*   Created: 2024/07/12 08:18:41 by alli              #+#    #+#             */
+/*   Updated: 2024/07/23 09:44:48 by alli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	ft_usleep(long long millisecond, t_philo *philo)
 {
 	long long	start;
 
+	// (void)philo;
 	start = get_current_time();
 	while ((get_current_time() - start) < millisecond)
 	{
